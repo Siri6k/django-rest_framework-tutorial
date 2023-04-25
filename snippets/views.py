@@ -4,6 +4,18 @@ from rest_framework import generics , permissions
 from django.contrib.auth.models import User
 # customize permission
 from .permissions import IsOwnerOrReadOnly
+# creating root API endpoint
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
+#ROOT endpoint
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'snippets': reverse('snippet-list', request=request, format=format)
+    })
 
 #user view 
 class UserList(generics.ListAPIView):
